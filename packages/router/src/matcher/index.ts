@@ -265,7 +265,7 @@ export function createRouterMatcher(
       name = matcher.record.name
       params = assign(
         // paramsFromLocation is a new object
-        paramsFromLocation(
+        pickParams(
           currentLocation.params,
           // only keep params that exist in the resolved location
           // only keep optional params coming from a parent record
@@ -279,7 +279,7 @@ export function createRouterMatcher(
         // discard any existing params in the current location that do not exist here
         // #1497 this ensures better active/exact matching
         location.params &&
-          paramsFromLocation(
+          pickParams(
             location.params,
             matcher.keys.map(k => k.name)
           )
@@ -359,7 +359,13 @@ export function createRouterMatcher(
   }
 }
 
-function paramsFromLocation(
+/**
+ * Picks an object param to contain only specified keys.
+ *
+ * @param params - params object to pick from
+ * @param keys - keys to pick
+ */
+function pickParams(
   params: MatcherLocation['params'],
   keys: string[]
 ): MatcherLocation['params'] {
